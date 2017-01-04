@@ -1,0 +1,23 @@
+<p>This extension provides a way to use file contents and filenames as Intruder payloads.</p>
+<p>Usage:</p>
+<ul>
+    <li>Load the extension. A new tab called PayloadTab should appear.</li>
+    <li>In the PayloadTab, choose the payload folder. The extension reads all 
+	files recursively and lists them.</li>
+    <li>In the payloads tab of the Intruder tool:
+        <ul>
+            <li>At Payload Sets -&gt; Payload Type, select Extension-generated.</li>
+            <li>At Payload Options, select File as Payload or Filename as 
+			Payload.
+                <ul>
+                    <li>If you just need to use the file contents as payload, select File as Payload.</li>
+                    <li>If you need both the content and filename then choose Pitchfork as the Attack type and use File as Payload for one Payload set and Filename as Payload for the other.</li>
+                </ul>
+            </li>
+            <li>At Payloads -&gt; Payload Encoding, disable the &quot;URL-encode these 
+			characters&quot; option (specially for multipart POST requests).</li>
+        </ul>
+    </li>
+</ul>
+<p>Requires Java version 7.</p>
+

@@ -1,0 +1,11 @@
+Uuid: 880cf2cf689b4067afd9db8e2aefb8ba
+ExtensionType: 1
+Name: Intruder File Payload Generator
+ScreenVersion: 1.0
+SerialVersion: 1
+MinPlatformVersion: 0
+ProOnly: False
+Author: Tiago Mendo
+ShortDescription: Allows use of file contents and filenames as Intruder payloads.
+EntryPoint: build/libs/intruder-file-payload-generator-all.jar
+BuildCommand: gradle -PburpJar=$BURP_JAR fatJar
