@@ -8,4 +8,4 @@ ProOnly: False
 Author: Tiago Mendo
 ShortDescription: Allows use of file contents and filenames as Intruder payloads.
 EntryPoint: build/libs/intruder-file-payload-generator-all.jar
-BuildCommand: gradle -PburpJar=$BURP_JAR fatJar
+BuildCommand: gradle fatJar
