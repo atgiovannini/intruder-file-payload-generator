@@ -16,12 +16,13 @@ import java.util.ArrayList;
  */
 public class IntruderPayloadGenerator implements IIntruderPayloadGenerator {
 
-    int payloadIndex;
-    ArrayList<String> files;
+    int payloadIndex, indexFiles, indexContent;
+    ArrayList<String> files, processingFiles;
     IBurpExtenderCallbacks callbacks = BurpExtender.getBurpCallbacks();
     
     // if true returns the filenames instead of the payload
     boolean useFilename;
+    PrintWriter stdout;
 
     public IntruderPayloadGenerator(File folder, boolean useFilename) {
         if (folder == null) {
@@ -31,33 +32,46 @@ public class IntruderPayloadGenerator implements IIntruderPayloadGenerator {
         else {
             files = FileUtils.listFilesForFolder(folder.getAbsolutePath());
         }
+        this.stdout = = new PrintWriter(callbacks.getStdout(), true);
         this.useFilename = useFilename;
     }
 
     @Override
     public boolean hasMorePayloads() {
-        return payloadIndex < files.size();
+        if(useFilename)
+            return indexFiles < files.size() ;
+        else{
+            return processingFiles == null || indexFiles <= files.size() || indexContent < processingFiles.size();
+        }
     }
 
     @Override
     public byte[] getNextPayload(byte[] baseValue) {
-        String file = files.get(payloadIndex);
-        payloadIndex++;
-        
-        byte[] payload = new byte[0];
-        try {
-            if (useFilename) {
-                payload = callbacks.getHelpers().stringToBytes(Paths.get(file).getFileName().toString());
+         
+        if(processingFiles == null || processingFiles.size() <= indexContent)
+        {
+            String filename = files.get(payloadIndex);
+            this.stdout.println("Based on file:" + filename);
+            if(useFilename){
+                baseValue = callbacks.getHelpers().stringToBytes(Paths.get(filename).getFileName().toString());
+            }else{
+                try{
+                    processingFiles = Files.readAllLines(Paths.get(filename));
+                } catch (IOException ex) {
+                    callbacks.getStderr().println("Could not read \"" + filename + "\" - " + ex.getLocalizedMessage();
+                }
             }
-            else {
-                payload = Files.readAllBytes(Paths.get(file));
-            }
-        } catch (IOException ex) {
-            PrintWriter stderr = new PrintWriter(callbacks.getStderr(), true);
-            stderr.println("Could not read \"" + file + "\" - " + ex.getLocalizedMessage());
+            indexFiles++;
+            indexContent = 0;
         }
-        
-        return payload;
+        if(!useFilename)
+        {
+            baseValue = callbacks.getHelpers().stringToBytes(processingFiles.get(indexContent));
+            indexContent++;
+        }
+        payloadIndex++;
+        this.stdout.println("generated=>" + callbacks.getHelpers().bytesToString(baseValue));
+        return baseValue;
     }
 
     @Override

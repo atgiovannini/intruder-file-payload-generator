@@ -30,7 +30,7 @@ public class PayloadFactory implements IIntruderPayloadGeneratorFactory{
             return "Filename as Payload";
         }
         else {
-            return "File as Payload";            
+            return "File lines as Payload";            
         }
     }
 
