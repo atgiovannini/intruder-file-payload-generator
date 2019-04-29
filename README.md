@@ -34,6 +34,7 @@ If you need both the content and filename then choose Pitchfork as the Attack ty
 
 TODO
 ------
+* enable parametrize exclude files and folders patterns
 * exclude files like .DS_Store
 * button to disable the "URL-encode these characters" option
 * verify file read permissions upon folder selection
