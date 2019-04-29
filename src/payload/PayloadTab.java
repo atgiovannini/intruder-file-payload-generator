@@ -174,12 +174,13 @@ public class PayloadTab extends javax.swing.JPanel implements ActionListener, IT
             folderName.setText(folder.getAbsolutePath());
             folderName.setEditable(false);
 
-            ArrayList<String> files = FileUtils.listFilesForFolder(folder.getAbsolutePath());
-            String fileList = "";
-            for(String file : files) {
-                fileList += file.replaceAll("^"+folder.getAbsolutePath()+"/", "") + "\n";
+            String lineSeparator = System.getProperty("line.separator");
+            StringBuilder fileList = new StringBuilder();
+            for(String file : FileUtils.listFilesForFolder(folder.getAbsolutePath())) {
+                fileList.append(file.replace(folder.getAbsolutePath() + File.separator , ""));
+                fileList.append(lineSeparator);
             }
-            payloadsNameList.setText(fileList.trim());
+            payloadsNameList.setText(fileList.toString().trim());
         }
     }//GEN-LAST:event_chooseButtonActionPerformed
 
