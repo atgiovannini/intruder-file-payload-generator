@@ -22,7 +22,7 @@ public class IntruderPayloadGenerator implements IIntruderPayloadGenerator {
     
     // if true returns the filenames instead of the payload
     boolean useFilename;
-    PrintWriter stdout;
+    PrintWriter stdout, stderr;
 
     public IntruderPayloadGenerator(File folder, boolean useFilename) {
         if (folder == null) {
@@ -32,7 +32,8 @@ public class IntruderPayloadGenerator implements IIntruderPayloadGenerator {
         else {
             files = FileUtils.listFilesForFolder(folder.getAbsolutePath());
         }
-        this.stdout = = new PrintWriter(callbacks.getStdout(), true);
+        this.stdout = new PrintWriter(callbacks.getStdout(), true);
+        this.stderr = new PrintWriter(callbacks.getStderr(), true);
         this.useFilename = useFilename;
     }
 
@@ -55,10 +56,10 @@ public class IntruderPayloadGenerator implements IIntruderPayloadGenerator {
             if(useFilename){
                 baseValue = callbacks.getHelpers().stringToBytes(Paths.get(filename).getFileName().toString());
             }else{
-                try{
-                    processingFiles = Files.readAllLines(Paths.get(filename));
+                 try{
+                    processingFiles = (ArrayList)Files.readAllLines(Paths.get(filename));
                 } catch (IOException ex) {
-                    callbacks.getStderr().println("Could not read \"" + filename + "\" - " + ex.getLocalizedMessage();
+                    this.stderr.println("Could not read \"" + filename + "\" - " + ex.getLocalizedMessage());
                 }
             }
             indexFiles++;

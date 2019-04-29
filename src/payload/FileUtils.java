@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class FileUtils {
         
-    static String[] excludedFiles = new String[]{{"readme", ".", "licen"}};
+    static String[] excludedFiles = new String[]{"readme", ".", "licen"};
     static String[] excludedFolders = new String[]{".git", ".vscode", ".settings"};
     public static ArrayList<String> listFilesForFolder(String folder) {
         ArrayList<String> files = new ArrayList<>();
